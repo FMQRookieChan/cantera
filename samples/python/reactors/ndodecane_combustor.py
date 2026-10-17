@@ -44,8 +44,8 @@ Windows CMD:
 
 .. code-block:: bat
 
-    python samples\python\reactors\ndodecane_combustor.py --engine V2500 --phase nDodecane_IG --output-dir outputs\\v2500
-    python samples\python\reactors\ndodecane_combustor.py --engine PW1100G --phase nDodecane_RK --no-show
+    python samples\\python\\reactors\\ndodecane_combustor.py --engine V2500 --phase nDodecane_IG --output-dir outputs\\v2500
+    python samples\\python\\reactors\\ndodecane_combustor.py --engine PW1100G --phase nDodecane_RK --no-show
 """
 
 from __future__ import annotations
@@ -184,7 +184,7 @@ def setup_combustor_case(
     if settings.steady_state:
         sim.solve_steady()
 
-    fuel_mass_fraction = combustor.thermo["c12h26"].Y[0]
+    fuel_mass_fraction = combustor.phase["c12h26"].Y[0]
     fuel_burn_rate = max(0.0, mdot_fuel_total - outlet.mass_flow_rate * fuel_mass_fraction)
     fuel_consumed = fuel_burn_rate * settings.advance_time
 
@@ -193,8 +193,8 @@ def setup_combustor_case(
         "fuel_burn_rate": fuel_burn_rate,
         "fuel_consumed": fuel_consumed,
         "outlet_temperature": combustor.T,
-        "outlet_pressure": combustor.thermo.P,
-        "outlet_NO_ppm": _get_species_ppm(combustor.thermo, "no"),
+        "outlet_pressure": combustor.phase.P,
+        "outlet_NO_ppm": _get_species_ppm(combustor.phase, "no"),
     }
 
 
